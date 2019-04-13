@@ -3,7 +3,7 @@ from flask_restful import Resource
 from confluent_kafka import Producer
 import json
 
-
+p = Producer({'bootstrap.servers': 'localhost:9092'})
 # create_app wraps the other functions to set up the project
 
 def create_app(config=None, testing=False, cli=True):
@@ -14,19 +14,12 @@ def create_app(config=None, testing=False, cli=True):
 
     @app.route("/tag/<uuid>/<tag>", methods=['POST'])
     def data(uuid,tag):
-        preference = {
-                      'uuid': uuid,
-                      'perference-tag': tag
-                    }
-        jsonify(preference)
-        writeToKafka.delivery_report(preference)
-        return  "j"
+        print(">>>>>>>>.",uuid, tag, type(tag))
+        p.produce(
+        topic = "content_curator_twitter", 
+        key = uuid, 
+        value = json.dumps({"preference": data}))
+        p.flush()
+        return  {"uuid": uuid}
 
     return app
-class writeToKafka():
-
-    def delivery_report(data):
-        p = Producer({'bootstrap.servers': 'localhost:9091'})
-        p.produce('wizards', json.dumps(data))
-        # print(json.dumps(data))
-        p.flush()

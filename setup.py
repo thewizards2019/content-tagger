@@ -11,7 +11,8 @@ setuptools.setup(
         'confluent-kafka',
         'kafka',
         'flask_restful',
-        'kafka-python'
+        'kafka-python',
+        'requests'
     ],
     extras_require={
         'dev': [

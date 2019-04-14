@@ -20,7 +20,7 @@ def create_app(config=None, testing=False, cli=True):
         recieves
         """
         try:
-            resp = requests.get(url="http://localhost:5009/preference/{}".format(sentence))
+            resp = requests.get(url="http://localhost:5020/preference/{}".format(sentence))
             return {"personal": resp.content.decode("utf8")}
         except Exception as exp:
             return False
